@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="prose sm:prose-sm md:prose-base lg:prose-lg xl:prose-xl mx-auto max-w-full sm:max-w-2xl lg:max-w-5xl"
+      className="prose-sm md:prose-base lg:prose mx-auto max-w-full sm:max-w-2xl lg:max-w-4xl"
     >
       <body className={`${jetbrainsMono.className} m-4 md:m-8`}>
         {children}
