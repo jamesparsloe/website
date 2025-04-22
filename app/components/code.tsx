@@ -10,6 +10,7 @@ export async function Code({ codeblock }: { codeblock: RawCode }) {
       <CopyButton text={highlighted.code} />
       <Pre
         code={highlighted}
+        style={highlighted.style}
       />
     </div>
   )

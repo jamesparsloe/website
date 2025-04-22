@@ -1,0 +1,78 @@
+---
+title: "Test"
+date: "1970-01-01"
+topics: []
+description: "Just testing out MDX stuff"
+draft: true
+---
+
+# Test
+
+## Introduction
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+## Animations
+
+I'm really liking MDX. Really simple to interleave components like this:
+
+import Spring from "./spring";
+
+<div className="flex justify-center">
+  <Spring />
+</div>
+
+and then I can just write something below it.
+
+## Game of Life[^0]
+
+import GameOfLife from "./game-of-life";
+
+<div className="flex justify-center">
+  <GameOfLife />
+</div>
+
+[^0]: This is a footnote
+
+
+## Code highlighting
+
+Another footnote[^1]
+
+[^1]: This is another footnote
+
+
+```python
+def add(x, y):
+    return x + y
+```
+
+You can then mix and match markdown codeblocks and HTML to do stuff like this:
+
+<div className="flex justify-between space-x-4">
+  <div className="w-1/2">
+  <h3>Left</h3>
+
+    ```python
+    def hello(x, y):
+        return x + y
+    ```
+  </div>
+  <div className="w-1/2">
+  <h3>Right</h3>
+    ```python
+    def world(x, y):
+        return x + y
+    ```
+  </div>
+</div>
+
+
+## Quotes
+
+> Fall in love with some activity, and do it! Nobody ever figures out what life is all about, and it doesn’t matter. Explore the world. Nearly everything is really interesting if you go into it deeply enough. Work as hard and as much as you want to on the things you like to do the best. Don’t think about what you want to be, but what you want to do. Keep up some kind of a minimum with other things so that society doesn’t stop you from doing anything at all.
+
+— Richard Feynman
+
+
+
