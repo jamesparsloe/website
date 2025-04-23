@@ -8,6 +8,7 @@ const Spring = () => {
     const [time, setTime] = useState(0);
     const width = 300;
     const height = 200;
+    const r = 20;
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -16,7 +17,7 @@ const Spring = () => {
         return () => clearInterval(interval);
     }, []);
 
-    const x = width / 2 + (width / 2) * Math.cos(time);
+    const x = (width - r) / 2 + ((width - r) / 2) * Math.cos(time);
 
     return (
         <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ background: "#f0f0f0" }}>
@@ -25,7 +26,7 @@ const Spring = () => {
             <motion.circle
                 cx={x}
                 cy="110"
-                r="20"
+                r={r}
                 fill="#3498db"
             />
         </svg>

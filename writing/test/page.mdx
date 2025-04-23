@@ -1,12 +1,9 @@
----
-title: "Test"
-date: "1970-01-01"
-topics: []
-description: "Just testing out MDX stuff"
-draft: true
----
-
-# Test
+export const metadata = {
+    title: "Test",
+    description: "Just testing out MDX stuff",
+    date: "1970-01-01",
+    draft: true
+}
 
 ## Introduction
 
@@ -76,3 +73,20 @@ You can then mix and match markdown codeblocks and HTML to do stuff like this:
 
 
 
+## Autolink literals
+
+www.example.com, https://example.com, and contact@example.com.
+
+## Strikethrough
+
+~one~ or ~~two~~ tildes.
+
+
+## $$\LaTeX$$
+
+Lift ($$L$$) can be determined by Lift Coefficient ($$C_L$$) like the following
+equation.
+
+$$
+L = \frac{1}{2} \rho v^2 S C_L
+$$

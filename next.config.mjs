@@ -3,7 +3,8 @@ import { remarkCodeHike, recmaCodeHike } from "codehike/mdx"
 import remarkMath from "remark-math"
 import rehypeKatex from "rehype-katex"
 import remarkGfm from "remark-gfm"
-import remarkFrontmatter from 'remark-frontmatter'
+
+
 
 
 /** @type {import('next').NextConfig} */
@@ -25,12 +26,10 @@ const withMDX = createMDX({
       [remarkCodeHike, chConfig],
       remarkMath,
       remarkGfm,
-      remarkFrontmatter,
     ],
     recmaPlugins: [[recmaCodeHike, chConfig]],
     rehypePlugins: [rehypeKatex],
     jsx: true,
-    // providerImportSource: "@mdx-js/react",
   },
 })
 

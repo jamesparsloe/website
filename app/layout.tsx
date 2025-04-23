@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="prose-sm md:prose-base lg:prose mx-auto max-w-full sm:max-w-2xl lg:max-w-4xl"
+      className="prose prose-headings:no-underline prose-a:no-underline mx-auto max-w-full sm:max-w-2xl lg:max-w-4xl"
     >
       <body className={`${jetbrainsMono.className} m-4 md:m-8`}>
         {children}

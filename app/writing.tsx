@@ -9,7 +9,7 @@ export default async function Writing() {
         <div>
             {posts.map(post => (
                 <div key={post.slug}>
-                    <Link href={`/writing/${post.slug}`} className="hover:text-blue-400">
+                    <Link href={`/writing/${post.slug}`}>
                         {post.title} - {format(new Date(post.date), "yyyy-MM-dd")}
                     </Link>
                 </div>
