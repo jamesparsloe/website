@@ -74,7 +74,7 @@ export default function ChartWrapper({ data }: ChartWrapperProps) {
                             const minutes = date.getUTCMinutes().toString().padStart(2, '0');
                             return `${year}-${month}-${day} ${hours}:${minutes}`;
                         }}
-                        formatter={(value, name) => [`£${value.toFixed(2)}`, 'Net Worth']}
+                        formatter={(value, name) => [`£${value}`, 'Net Worth']}
                     />
                     <Line
                         type="stepAfter"
