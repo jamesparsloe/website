@@ -8,3 +8,7 @@ kbd,
 samp {
   font-family: var(--font-jetbrains-mono);
 }
+
+a:not(.anchor) {
+  @apply text-blue-600;
+}

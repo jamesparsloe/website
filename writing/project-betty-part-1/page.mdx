@@ -1,0 +1,159 @@
+import Image from 'next/image'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
+
+export const metadata = {
+    title: 'Project Betty - Part 1',
+    description: 'Part 1 of letting Claude trying to make money betting on football',
+    date: '2025-08-23',
+    draft: false,
+    alternates: { canonical: '/writing/project-betty-part-1' }
+}
+
+## Introduction
+
+I thought [Project Vend](https://www.anthropic.com/research/project-vend-1) was a fun experiment from Anthropic a couple of months back. For me it nicely highlighted a couple of themes in the current A(G)I discourse:
+
+1. the ability of AI to complete long tasks[^0]
+2. the gap between evals and benchmarks and real-world scenarios
+3. and potential economic impacts of AI
+
+I've done some automated sports betting in the past and thought it would make an interesting parallel on how well Claude (Sonnet) could manage with that task with very little human inductive biases or modelling in the loop. I narrowed things down slightly by focusing on football (soccer) and constraining the market to the home/away/draw result.
+
+I feel like it's a good benchmark because the LLM/agent definitely can't cheat from its training data and also I can get some quite quick (~weeks) feedback on actions taken. It's also exciting to have a bit of skin in the game. That said, it's also probably a bad benchmark in the sense that average humans are terrible at statistics and probabilistic thinking, but let's ignore that for now.
+
+Anyway here's **Project Betty**!
+
+## Architecture
+
+### Outer Loop
+
+There's an outer loop which on a timer retrieves upcoming football matches from the Betfair API and then if any are starting in the next half-hour performs an inner loop for an individual match
+
+## Inner Loop
+
+The inner loop architecture looks like this
+
+import architecture from './betty.png'
+
+<div className="flex justify-center">
+  <Image src={architecture} alt="Betty Architecture" />
+</div>
+
+**1. Conduct research on the upcoming fixture**
+
+I'm using the [web search](https://www.anthropic.com/news/web-search-api) in the Anthropic API
+
+```python
+prompt = f"""
+Research the Premier League fixture: {fixture} (date: {date})
+
+Please search for and summarize the following key information:
+
+1. **Team News & Injuries**: Key players unavailable, recent injury updates
+2. **Recent Form**: Last 5 matches for both teams, current league position
+3. **Head-to-Head**: Recent meetings between these teams, historical trends
+4. **Key Players**: Star players to watch, recent goal scorers, assists
+5. **Manager Updates**: Any tactical changes, press conference insights
+6. **Venue Information**: Home advantage factors, pitch conditions
+7. **Weather Conditions**: Expected weather that could impact play style
+8. **Betting Context**: Any notable betting trends or expert predictions
+
+Focus on factual, recent information that would impact match outcome probabilities.
+Organize the response in a clear, structured format that can be easily parsed.
+"""
+```
+
+**2. Extract structured predictions using dspy**[^1]
+
+I use DSPy[^1] to extract structured data from the web search results. I know this looks dumb on many levels relative to how you might actually build, backtest, and run predictive sports models in practice, but this is at the core what I'm testing in the benchmark. The sort of data I extract looks like this to keep things semi-interpretable:
+
+```python
+class TeamAnalysis(BaseModel):
+    """Analysis for a single team"""
+
+    form_rating: float  # 0-10 scale
+    injury_impact: float  # 0-10 scale (higher = more injuries)
+    key_players_available: bool
+    recent_performance: str  # "excellent", "good", "average", "poor"
+    motivation_level: float  # 0-10 scale
+
+
+class MatchFactors(BaseModel):
+    """External factors affecting the match"""
+
+    home_advantage: float  # 0-10 scale
+    weather_impact: float  # 0-10 scale (higher = more impact)
+    venue_significance: float  # 0-10 scale
+    referee_influence: float  # 0-10 scale
+    crowd_support: float  # 0-10 scale
+
+
+class BettingProbabilities(BaseModel):
+    """Final betting probabilities and confidence"""
+
+    home_win_probability: float  # 0-1
+    draw_probability: float  # 0-1
+    away_win_probability: float  # 0-1
+    confidence_score: float  # 0-1
+    key_factors: List[str]
+    reasoning: str
+
+
+class ResearchAnalyzer(dspy.Signature):
+    """Analyze raw research data and extract structured team insights"""
+
+    research_data: str = dspy.InputField(desc="Raw research data from web search")
+    fixture: str = dspy.InputField(desc="Match fixture (e.g., 'Man City v Tottenham')")
+
+    home_team_analysis: TeamAnalysis = dspy.OutputField(
+        desc="Structured analysis of home team"
+    )
+    away_team_analysis: TeamAnalysis = dspy.OutputField(
+        desc="Structured analysis of away team"
+    )
+    match_factors: MatchFactors = dspy.OutputField(desc="External match factors")
+
+
+class ProbabilityCalculator(dspy.Signature):
+    """Calculate betting probabilities from structured team analysis"""
+
+    home_team_analysis: TeamAnalysis = dspy.InputField(desc="Home team analysis")
+    away_team_analysis: TeamAnalysis = dspy.InputField(desc="Away team analysis")
+    match_factors: MatchFactors = dspy.InputField(desc="Match factors")
+    fixture: str = dspy.InputField(desc="Match fixture name")
+
+    probabilities: BettingProbabilities = dspy.OutputField(
+        desc="Betting probabilities and reasoning"
+    )
+```
+
+**3. Size and place bets with a fractional Kelly based system**
+
+I took the liberty here of treating this part as a tool. I feel it's simple and well known enough to justify doing this part in code[^2]. Once the bets are sized according to the edge from Betty's they are executed through the Betfair API. At most one bet can be placed and executed per match.
+
+### Memory
+
+After each day Claude summarises the bets placed and the profit and loss for Betty, and this is then used as a primative memory and feedback system.
+
+## The results[^3]
+
+I gave Betty £100 to start with and filtered football matches to just the English Premier League so that I wouldn't lose all of my money straight away from a ridiculous bug or anything. I think I'll open up to other English football leagues to try and get some faster feedback on the edge (or lack thereoff) of Betty.
+
+import netWorth from './net-worth.json'
+import ChartWrapper from '@/app/components/chart-wrapper'
+
+<ChartWrapper data={netWorth} />
+
+## What's next?
+
+This was a quickly hacked together version of Betty I did in a couple of hours. I think it's unclear currently how much the "harness" and tools should or shouldn't do (see [this](https://www.dbreunig.com/2025/06/17/an-agentic-case-study-playing-pok%C3%A9mon-with-gemini.html) great piece Drew Breunig) so I didn't worry too much about making it "pure" or anything in that respect. I also now don't want to change this version of Betty and would like to leave it running for a month.
+
+I've had fun hacking this together, I think there'll be another version after this month is up (or if Betty loses the entire bankroll before then). I need to read in detail [Vending-Bench](https://arxiv.org/abs/2502.15840) which I think was inspiration for Anthropic's Project Vend, and do some more digging on what is the right level to pose these agentic benchmarks at instead of engineering too much of the harness or supporting logic myself.
+
+[^0]: ‘Measuring AI Ability to Complete Long Tasks’, METR Blog, Mar. 2025, Accessed: Aug. 23, 2025. [Online]. Available: https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks
+
+[^1]: I would highly recommend checking out [DSPy](https://dspy.ai/) for building modular AI systems if you haven't seen before
+
+[^2]: In retrospect maybe controlling inventory/bankroll is an important part of long term planning. For the next version of Betty I'll have a better think what to do here.
+
+[^3]: I will periodically update the chart with Betty's progress over the next month
