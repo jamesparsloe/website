@@ -1,7 +1,7 @@
+import { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPosts, getPost } from "@/app/utils"
-import Link from "next/link";
-import { Metadata } from "next";
 
 export async function generateStaticParams() {
     const posts = await getPosts()
@@ -34,6 +34,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
             description: post.metadata.description,
             type: "article",
             url: `/writing/${slug}`,
+            ...(post.metadata.image && { images: [post.metadata.image] }),
         },
     }
 }

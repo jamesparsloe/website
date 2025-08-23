@@ -64,7 +64,8 @@ export async function getPost(slug: string): Promise<{
         title: string,
         description: string,
         date: string,
-        draft: boolean
+        draft: boolean,
+        image?: string
     }
 } | null> {
 
