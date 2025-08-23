@@ -36,6 +36,12 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
             url: `/writing/${slug}`,
             ...(post.metadata.image && { images: [post.metadata.image] }),
         },
+        twitter: {
+            card: "summary_large_image",
+            title: post.metadata.title,
+            description: post.metadata.description,
+            ...(post.metadata.image && { images: [post.metadata.image] }),
+        },
     }
 }
 
