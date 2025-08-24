@@ -26,7 +26,7 @@ export default function ChartWrapper({ data }: ChartWrapperProps) {
 
     return (
         <div className="w-full bg-gray-50 p-6 rounded-lg">
-            <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Net Worth Over Time</h2>
+            <h2 className="text-2xl font-bold text-center mb-6">Net Worth Over Time</h2>
             <ResponsiveContainer width="100%" height={400}>
                 <LineChart data={processedData} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />

@@ -1,3 +1,5 @@
+@import 'katex/dist/katex.min.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,9 +8,22 @@ code,
 pre,
 kbd,
 samp {
-  font-family: var(--font-jetbrains-mono);
+  font-family: 'JetBrains Mono', monospace;
 }
 
 a:not(.anchor) {
   @apply text-blue-600;
+}
+
+/* Reduce excessive list spacing */
+.prose ul > li,
+.prose ol > li {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.prose ul,
+.prose ol {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
 }
