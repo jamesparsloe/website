@@ -18,6 +18,8 @@ export default function ChartWrapper({ data }: ChartWrapperProps) {
         date: new Date(item.date).getTime()
     }))
 
+    const pnl = data[data.length - 1].value - data[0].value
+
     // Calculate domain to show at least 24 hours from min date
     const minDate = Math.min(...processedData.map(item => item.date))
     const maxDate = Math.max(...processedData.map(item => item.date))
@@ -26,7 +28,7 @@ export default function ChartWrapper({ data }: ChartWrapperProps) {
 
     return (
         <div className="w-full bg-gray-50 p-6 rounded-lg">
-            <h2 className="text-2xl font-bold text-center mb-6">Net Worth Over Time</h2>
+            <h2 className="text-2xl font-bold text-center mb-6">Net Worth Over Time (PnL £{pnl.toFixed(2)})</h2>
             <ResponsiveContainer width="100%" height={400}>
                 <LineChart data={processedData} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
@@ -40,6 +42,14 @@ export default function ChartWrapper({ data }: ChartWrapperProps) {
                         type="number"
                         scale="time"
                         domain={[minDate, domainEnd]}
+                        ticks={(() => {
+                            const sixHoursMs = 6 * 60 * 60 * 1000;
+                            const ticks = [];
+                            for (let tick = minDate; tick <= domainEnd; tick += sixHoursMs) {
+                                ticks.push(tick);
+                            }
+                            return ticks;
+                        })()}
                         tickFormatter={(tickItem) => {
                             const date = new Date(tickItem);
                             const year = date.getFullYear()
@@ -49,7 +59,6 @@ export default function ChartWrapper({ data }: ChartWrapperProps) {
                             const minutes = date.getUTCMinutes().toString().padStart(2, '0');
                             return `${year}-${month}-${day} ${hours}:${minutes}`;
                         }}
-                        tickCount={6}
                     />
                     <YAxis
                         stroke="#666"
@@ -58,6 +67,7 @@ export default function ChartWrapper({ data }: ChartWrapperProps) {
                         axisLine={false}
                         tickFormatter={(value) => `${value}`}
                         label={{ value: 'Net Worth (£)', angle: -90, position: 'insideLeft' }}
+                        domain={[80, 110]}
                     />
                     <Tooltip
                         contentStyle={{
@@ -74,7 +84,7 @@ export default function ChartWrapper({ data }: ChartWrapperProps) {
                             const minutes = date.getUTCMinutes().toString().padStart(2, '0');
                             return `${year}-${month}-${day} ${hours}:${minutes}`;
                         }}
-                        formatter={(value, name) => [`£${value}`, 'Net Worth']}
+                        formatter={(value, name) => [`£${value}`]}
                     />
                     <Line
                         type="stepAfter"

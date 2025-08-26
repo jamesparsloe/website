@@ -1,0 +1,10 @@
+event,runner,placed_date,price,size,outcome,profit,settled_date
+Man City v Tottenham,Man City,2025-08-23T11:36:18.000Z,1.57,2.0,LOST,-2.0,2025-08-23T13:30:50.000Z
+Bournemouth v Wolves,Bournemouth,2025-08-23T12:17:52.000Z,1.84,4.5,WON,3.78,2025-08-23T15:58:20.000Z
+Brentford v Aston Villa,The Draw,2025-08-23T12:11:00.000Z,3.6,3.3,LOST,-3.3,2025-08-23T16:01:26.000Z
+Burnley v Sunderland,Sunderland,2025-08-23T12:13:47.000Z,3.5,4.74,LOST,-4.74,2025-08-23T16:03:55.000Z
+Arsenal v Leeds,Leeds,2025-08-23T16:06:31.000Z,11.0,1.87,LOST,-1.87,2025-08-23T18:26:50.000Z
+Crystal Palace v Nottm Forest,Nottm Forest,2025-08-24T06:52:09.000Z,3.2,1.83,LOST,-1.83,2025-08-24T14:55:19.000Z
+Everton v Brighton,Everton,2025-08-24T07:25:05.000Z,3.25,1.73,WON,3.89,2025-08-24T14:56:58.000Z
+Fulham v Man Utd,Fulham,2025-08-24T07:44:07.000Z,3.55,1.69,LOST,-1.69,2025-08-24T17:24:32.000Z
+Newcastle v Liverpool,Liverpool,2025-08-25T18:19:17.000Z,2.32,1.76,WON,2.32,2025-08-25T21:06:03.000Z

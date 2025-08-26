@@ -5,9 +5,10 @@ export const metadata = {
     title: 'Project Betty - Part 1',
     description: 'Letting Claude try to make money betting on football...',
     date: '2025-08-23',
+    updated: '2025-05-26',
     draft: false,
     alternates: { canonical: '/writing/project-betty-part-1' },
-    image: "/images/betty-day-1.png"
+    image: "/project-betty-part-1/architecture.png"
 }
 
 ## Introduction
@@ -39,6 +40,8 @@ import architecture from './betty.png'
 <div className="flex justify-center">
   <Image src={architecture} alt="Betty Architecture" />
 </div>
+
+And the process is as follows
 
 **1. Conduct research on the upcoming fixture**
 
@@ -136,7 +139,7 @@ I took the liberty here of treating this part as a tool. I feel it's simple and 
 
 After each day Claude summarises the bets placed and the profit and loss for Betty, and this is then used as a primative memory and feedback system.
 
-## The results[^3]
+## Results[^3]
 
 I gave Betty £100 to start with and filtered football matches to just the English Premier League so that I wouldn't lose all of my money straight away from a ridiculous bug or anything. I think I'll open up to other English football leagues to try and get some faster feedback on the edge (or lack thereoff) of Betty.
 
@@ -145,11 +148,35 @@ import ChartWrapper from '@/app/components/chart-wrapper'
 
 <ChartWrapper data={netWorth} />
 
+
 ## What's next?
 
 This was a quickly hacked together version of Betty I did in a couple of hours. I think it's unclear currently how much the "harness" and tools should or shouldn't do (see [this](https://www.dbreunig.com/2025/06/17/an-agentic-case-study-playing-pok%C3%A9mon-with-gemini.html) great piece Drew Breunig) so I didn't worry too much about making it "pure" or anything in that respect. I also now don't want to change this version of Betty and would like to leave it running for a month.
 
 I've had fun hacking this together, I think there'll be another version after this month is up (or if Betty loses the entire bankroll before then). I need to read in detail [Vending-Bench](https://arxiv.org/abs/2502.15840) which I think was inspiration for Anthropic's Project Vend, and do some more digging on what is the right level to pose these agentic benchmarks at instead of engineering too much of the harness or supporting logic myself.
+
+## Full Record
+
+<a 
+    href="/project-betty-part-1/results.csv"
+    download="project-betty-part-1-results.csv"
+>
+Download the results
+</a>
+
+
+import { CSVTable } from '@/app/components/csv-table';
+import Papa from 'papaparse';
+import csvRawData from '!!raw-loader!./results.csv';
+
+export const data = Papa.parse(csvRawData, {
+  header: true,
+  skipEmptyLines: true,
+  dynamicTyping: false
+}).data;
+
+
+<CSVTable data={data} />
 
 [^0]: ‘Measuring AI Ability to Complete Long Tasks’, METR Blog, Mar. 2025, Accessed: Aug. 23, 2025. [Online]. Available: https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks
 
