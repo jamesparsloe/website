@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { motion, useSpring, useTransform } from "framer-motion";
+import { motion } from "motion/react"
 
 const Spring = () => {
     // Toggle the spring between relaxed and stretched states

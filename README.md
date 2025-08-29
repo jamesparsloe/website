@@ -3,14 +3,15 @@
 ## Development
 
 ```bash
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 ## Production
 
 ```bash
-npm run build
-npm run start
+pnpm build
+pnpm start
 ```
 
 ## Acknowledgements
