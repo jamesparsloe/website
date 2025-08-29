@@ -13,7 +13,7 @@ export interface Post {
     slug: string
     title: string
     date: string
-    updated: string
+    updated: string | null
     draft: boolean
     topics: string[]
 }
@@ -46,7 +46,7 @@ export async function getPosts() {
                 slug: dir,
                 title: metadata.title || dir,
                 date: metadata.date || '',
-                updated: metadata.updated || metadata.date || '',
+                updated: metadata.updated,
                 draft: metadata.draft || false,
                 topics: metadata.topics || []
             })
@@ -66,7 +66,7 @@ export async function getPost(slug: string): Promise<{
         title: string,
         description: string,
         date: string,
-        updated: string,
+        updated: string | null,
         draft: boolean,
         image?: string
     }

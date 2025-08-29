@@ -2,9 +2,18 @@ export const metadata = {
     title: 'Relearning Physics',
     description: '',
     date: '2025-04-13',
+    updated: '2025-08-29',
     draft: false,
-    alternates: { canonical: '/writing/relearning-physics' }
+    alternates: { canonical: '/writing/relearning-physics' },
+    image: "/relearning-physics/relearning-physics.jpeg"
 }
+
+import Image from 'next/image'
+import artwork from './relearning-physics.jpeg'
+
+<div className="flex justify-center">
+  <Image src={artwork} alt="Abstract visualization of a glowing orange vortex with grid-like spacetime distortion" />
+</div>
 
 > All of physics is either impossible or trivial. It is impossible until you understand it, and then it becomes trivial.
 

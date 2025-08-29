@@ -62,9 +62,10 @@ export default async function Page(props: Props) {
                     <div>
                         <span className="font-medium">Created:</span> <time>{post.metadata.date}</time>
                     </div>
-                    <div>
+                    {post.metadata.updated && <div>
                         <span className="font-medium">Last Updated:</span> <time>{post.metadata.updated}</time>
                     </div>
+                    }
                 </div>
                 <Link href="/" className="text-blue-600 hover:text-blue-800 font-medium">
                     ← Back to home
